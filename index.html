@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Celebration Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Lora:ital,wght@0,400;0,700;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&family=Open+Sans:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&family=Quicksand:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Landing Page -->
+    <div id="landing-view">
+        <div class="hero">
+            <h1>Create an Unforgettable Journey</h1>
+            <p>One link. Three magical moments. One special person.</p>
+            <button class="btn btn-gold" onclick="startBuilding()" style="font-size: 1.2rem; padding: 1rem 2.5rem;">✨ Get Started ✨</button>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card"><span class="feature-icon">🎭</span><h3>Playful Start</h3><p>Begin with a fun yes/no question.</p></div>
+            <div class="feature-card"><span class="feature-icon">🔍</span><h3>Treasure Hunt</h3><p>Unlock the next stage with correct answers.</p></div>
+            <div class="feature-card"><span class="feature-icon">📸</span><h3>Mystery Box</h3><p>Photos burst out like exploding memories!</p></div>
+            <div class="feature-card"><span class="feature-icon">💌</span><h3>Heartfelt Letter</h3><p>Beautiful, customizable letter at the end.</p></div>
+        </div>
+    </div>
+
+    <!-- Creator Mode -->
+    <div id="creator-view" class="hidden">
+        <div class="wizard-header">
+            <h2 style="font-family: 'Playfair Display';">Journey Builder</h2>
+            <div class="progress-bar">
+                <div class="prog-step" id="prog-1">1</div>
+                <div class="prog-step" id="prog-2">2</div>
+                <div class="prog-step" id="prog-3">3</div>
+                <div class="prog-step" id="prog-4">4</div>
+                <div class="prog-step" id="prog-5">5</div>
+            </div>
+        </div>
+
+        <!-- Step 1 -->
+        <div id="step-1" class="wizard-step">
+            <h2 class="step-title">🎭 Step 1: The Playful Start</h2>
+            <p class="step-desc">Add a fun question to engage them immediately.</p>
+            <div class="form-group">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="checkbox" id="toggle-playful" checked onchange="togglePlayful()">
+                    <label for="toggle-playful" style="margin:0; cursor:pointer;">Enable Opening Question</label>
+                </div>
+            </div>
+            <div id="playful-fields">
+                <div class="form-group">
+                    <label>Your Question</label>
+                    <input type="text" id="p-question" placeholder="Are you ready for an adventure?">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Message if YES</label>
+                        <input type="text" id="p-yes" placeholder="Great! Let's begin! 🎉">
+                    </div>
+                    <div class="form-group">
+                        <label>Message if NO</label>
+                        <input type="text" id="p-no" placeholder="The adventure waits for no one! 😉">
+                    </div>
+                </div>
+            </div>
+            <div class="step-nav">
+                <button class="btn btn-outline" onclick="goHome()">Cancel</button>
+                <button class="btn btn-primary" onclick="nextStep(2)">Next: Hunt →</button>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step-2" class="wizard-step hidden">
+            <h2 class="step-title">🔍 Step 2: Treasure Hunt</h2>
+            <p class="step-desc">Add at least 2 questions.</p>
+            <div style="background: #F5F7FA; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                <div class="form-group" style="margin-bottom:0.5rem;"><input type="text" id="q-text" placeholder="Question: e.g. Where did we meet?"></div>
+                <div class="form-group" style="margin-bottom:0.5rem;"><input type="text" id="q-ans" placeholder="Answer: e.g. Paris"></div>
+                <button class="btn btn-primary" style="width:100%;" onclick="addQuestion()">➕ Add Question</button>
+            </div>
+            <div id="questions-list"></div>
+            <p id="q-status" style="text-align: center; font-weight: 600; margin-top: 1rem;">0 questions added (Min 2 required)</p>
+            <div class="step-nav">
+                <button class="btn btn-outline" onclick="prevStep(1)">← Back</button>
+                <button id="btn-next-2" class="btn btn-primary" onclick="nextStep(3)" disabled>Next →</button>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="step-3" class="wizard-step hidden">
+            <h2 class="step-title">📸 Step 3: Mystery Photos</h2>
+            <p class="step-desc">Upload 5-10 photos. They will explode out of the box!</p>
+            <div style="border: 2px dashed #ccc; padding: 2rem; text-align: center; border-radius: 12px; cursor: pointer;" onclick="document.getElementById('file-input').click()">
+                <p style="color: var(--text-light);">Click to Upload</p>
+                <p style="font-size: 0.8rem; color: #999;">Max 10 photos</p>
+                <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+            </div>
+            <div id="photo-grid" class="photo-grid"></div>
+            <div class="step-nav">
+                <button class="btn btn-outline" onclick="prevStep(2)">← Back</button>
+                <button id="btn-next-3" class="btn btn-primary" onclick="nextStep(4)" disabled>Next →</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Letter Builder -->
+        <div id="step-4" class="wizard-step hidden">
+            <h2 class="step-title">💌 Step 4: Final Letter</h2>
+            <p class="step-desc">Customize the final message. Templates are just a start.</p>
+            
+            <div class="editor-layout">
+                <div>
+                    <label>Choose a Template</label>
+                    <div class="template-grid">
+                        <button class="template-btn" onclick="setTemplate('birthday')">🎂 Birthday</button>
+                        <button class="template-btn" onclick="setTemplate('milestone')">🥳 Milestone</button>
+                        <button class="template-btn" onclick="setTemplate('anniversary')">💍 Anniversary</button>
+                        <button class="template-btn" onclick="setTemplate('love')">💞 Love</button>
+                        <button class="template-btn" onclick="setTemplate('graduation')">🎓 Graduation</button>
+                        <button class="template-btn" onclick="setTemplate('friendship')">🤗 Friend</button>
+                    </div>
+
+                    <div class="style-options">
+                        <div class="form-group">
+                            <label>Font Family</label>
+                            <select id="l-font" onchange="updatePreview()">
+                                <option value="'Playfair Display', serif">Classic Elegance</option>
+                                <option value="'Dancing Script', cursive">Sweet Script</option>
+                                <option value="'Caveat', cursive">Handwritten</option>
+                                <option value="'Quicksand', sans-serif">Modern Clean</option>
+                                <option value="'Montserrat', sans-serif">Bold Modern</option>
+                                <option value="'Lora', serif">Storybook</option>
+                                <option value="'Sacramento', cursive">Elegant Cursive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Background Style</label>
+                            <select id="l-bg" onchange="updatePreview()">
+                                <option value="bg-parchment">Parchment (Classic)</option>
+                                <option value="bg-blush">Blush Pink</option>
+                                <option value="bg-sunset">Sunset Gradient</option>
+                                <option value="bg-ocean">Ocean Breeze</option>
+                                <option value="bg-modern">Minimal White</option>
+                                <option value="bg-night">Starry Night</option>
+                                <option value="bg-royal">Royal Purple</option>
+                                <option value="bg-forest">Forest Green</option>
+                                <option value="bg-confetti">Confetti</option>
+                                <option value="bg-love">Love Hearts</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Your Message</label>
+                        <textarea id="l-content" rows="8" oninput="updatePreview()" placeholder="Write your heartfelt message here..."></textarea>
+                    </div>
+                </div>
+                <div>
+                    <label>Live Preview</label>
+                    <div id="preview-frame" class="preview-frame bg-parchment"></div>
+                </div>
+            </div>
+
+            <div class="step-nav">
+                <button class="btn btn-outline" onclick="prevStep(3)">← Back</button>
+                <button id="btn-next-4" class="btn btn-primary" onclick="nextStep(5)" disabled>Generate Link →</button>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div id="step-5" class="wizard-step hidden">
+            <h2 class="step-title">🔗 Step 5: Create Link</h2>
+            <div id="summary" style="background:#F9FAFB; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #eee;"></div>
+            <button class="btn btn-gold" style="width:100%; font-size:1.2rem;" onclick="generateLink()">✨ Generate Link ✨</button>
+            <div id="link-output" class="hidden" style="margin-top: 2rem;">
+                <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+                    <input type="text" id="final-link" readonly style="background:white; color:var(--secondary-purple); font-weight:600;">
+                    <button class="btn btn-primary" onclick="copyLink()">Copy</button>
+                </div>
+                <a id="preview-link" href="#" target="_blank" class="btn btn-outline" style="width:100%;">Preview in New Tab</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipient View -->
+    <div id="recipient-view" class="hidden">
+        <!-- Stage 1 -->
+        <div id="r-stage-1" class="stage-playful hidden">
+            <div class="particle-bg" id="particles"></div>
+            <div class="playful-content">
+                <h1>Can we play a game?</h1>
+                <h2 id="rp-q" class="playful-q"></h2>
+                <div id="rp-btns" class="btn-group">
+                    
+                    <button class="btn-answer btn-yes" onclick="playfulAnswer('yes')">YES</button>
+                    <button class="btn-answer btn-no" onclick="playfulAnswer('no')">NO</button>
+                </div>
+                <h3 id="rp-response" class="response-msg hidden"></h3>
+            </div>
+        </div>
+        <!-- Stage 2 -->
+        <div id="r-stage-2" class="stage-hunt hidden">
+            <div class="hunt-card">
+                <div class="progress-hunt"><div id="r-hunt-progress" class="progress-hunt-fill"></div></div>
+                <p style="opacity: 0.7;">Question <span id="r-q-num">1</span> of <span id="r-q-total">3</span></p>
+                <h2 id="r-q-text" style="font-family: 'Playfair Display'; font-size: 1.8rem; margin: 1.5rem 0;"></h2>
+                <input type="text" id="r-answer" class="input-answer" placeholder="Type answer...">
+                <button class="btn btn-gold" style="width:100%; margin-top:1rem;" onclick="checkAnswer()">Submit</button>
+                <p id="r-error" style="color: var(--primary-coral); margin-top:1rem; font-weight:600;"></p>
+            </div>
+        </div>
+        <!-- Stage 3 -->
+        <div id="r-stage-3" class="stage-photos hidden">
+            <div id="r-box" class="gift-box-container">
+                <div class="gift-box" onclick="openBox()">
+                    <div class="box-lid"></div>
+                    <div class="box-body">
+                        <div class="ribbon ribbon-v"></div>
+                        <div class="ribbon ribbon-h"></div>
+                    </div>
+                    <div class="bow"></div>
+                </div>
+            </div>
+            <div id="r-photos"></div>
+            <button id="r-to-letter" class="btn btn-gold hidden" style="position:absolute; bottom:40px;" onclick="showStage(4)">Continue to Letter →</button>
+        </div>
+        <!-- Stage 4 -->
+        <div id="r-stage-4" class="stage-letter hidden">
+            <div id="r-letter" class="letter-container">
+                <div id="r-letter-body" class="letter-body"></div>
+                <div style="text-align: center; margin-top: 3rem; font-size: 0.9rem; opacity: 0.7;">💝 Made with love, just for you</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error View -->
+    <div id="error-view" class="hidden">
+        <div style="font-size: 5rem; margin-bottom: 2rem;">🔗</div>
+        <h1 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 1rem;">Oops! Link Invalid</h1>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">This link seems broken. Please check with the sender.</p>
+        <button class="btn btn-primary" onclick="goHome()">✨ Create Your Own</button>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="this.classList.remove('active')">
+        <img id="lightbox-img" src="" alt="Photo">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
